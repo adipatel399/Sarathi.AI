@@ -1,0 +1,33 @@
+[project]
+name = "explain-assistant"
+version = "0.1.0"
+description = "Samjhao: an on-device fine-tuned model that explains confusing Indian SMS, bills and letters to elderly people, in Hindi or English, and flags scams"
+readme = "README.md"
+authors = [
+    { name = "Adi Patel", email = "pateladitya4999@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "mlx-lm>=0.31.3",
+    "python-telegram-bot>=22.8",
+]
+
+[project.scripts]
+samjhao = "explain_assistant:main"
+samjhao-bot = "explain_assistant.bot:main"
+samjhao-data = "explain_assistant.data_gen:main"
+samjhao-eval = "explain_assistant.evaluate:main"
+
+[project.optional-dependencies]
+ocr = [
+    "ocrmac>=1.0.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

@@ -1,0 +1,165 @@
+{
+  "examples": 40,
+  "valid_json_pct": 85.0,
+  "verdict_accuracy_pct": 30.0,
+  "doc_type_accuracy_pct": 0.0,
+  "dangerous_recall_pct": 78.9,
+  "safe_messages_flagged_as_scam": 9,
+  "safe_messages_total": 19,
+  "reply_language_correct_pct": 80.0,
+  "per_case_verdict_accuracy_pct": {
+    "safe": 42.1,
+    "scam": 10.5,
+    "suspicious": 100.0
+  },
+  "mistakes": [
+    {
+      "case": "scam",
+      "text": "Dear customer your FASTag KYC is incomplete, your FASTag will be blacklisted within 24 hours. Update KYC now: http://fastag-kyc-npci.online/update",
+      "raw": "{\n  \"doc_type\": \"sms\",\n  \"verdict\": \"suspicious\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"लोकल नंबर\",\n    \"कोई बैंक या सरकारी ब्यावजात नहीं\",\n    \"कोई लिंक दिया गया\",\n    \"क"
+    },
+    {
+      "case": "scam",
+      "text": "आपका आधार कार्ड 3 दिन में निष्क्रिय हो जाएगा। आधार अपडेट शुल्क Rs 50 इस लिंक पर भरें: http://uidai-update.co/pay",
+      "raw": "{\n  \"doc_type\": \"sms\",\n  \"verdict\": \"suspicious\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"लिंक\",\n    \"निष्क्रिय हो जाएगा\",\n    \"शुल्क\",\n    \"निजी नंबर\",\n    \"आधार अपडेट\"\n  ]"
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Welcome to NSE Stock VIP Group 17. Our expert gives daily tips with 300% monthly returns. Join WhatsApp group and download app to start trading with min Rs 10,0"
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Priya grahak, aapka bijli connection aaj raat kaat diya jayega. Bill update karne ke liye 'MSEB Bill Update' APK download karein: http://bit.ly/mseb-apk"
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Hello sir, I am calling from Airtel. Your SIM will be converted to 5G eSIM today. Please share the 6-digit code you will receive now to avoid service disconnect"
+    },
+    {
+      "case": "scam",
+      "text": "Bhai maine galti se aapke Paytm par Rs 4500 bhej diye, please wapas kar do is number par, bahut zaroori hai, mera bachcha hospital mein hai.",
+      "raw": "{\n  \"doc_type\": \"sms\",\n  \"verdict\": \"suspicious\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"personal_mobile_number\",\n    \"bank_request\",\n    \"ask_for_money\",\n    \"urgent_famil"
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Your SBI YONO account is blocked due to PAN not linked. Click to link PAN within 2 hours: sbi-yono-pan.in/link and enter your net banking password."
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "गैस कनेक्शन सब्सिडी Rs 3000 आपके लिए स्वीकृत है। सब्सिडी पाने के लिए अपना UPI PIN डालकर Rs 1 का वेरिफ़िकेशन भुगतान करें।"
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Hi Nani, main Rohan. Mera phone kho gaya, ye dost ka number hai. Exam fees ke liye Rs 12000 abhi GPay kar do 9988776655@ybl par, mummy ko mat batana please."
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "EPFO: Your PF amount Rs 1,48,000 is ready for withdrawal. Pay Rs 1,250 processing charge to release funds. Contact claim officer 9345671208."
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "आयुष्मान भारत कार्ड बनवाने का आख़िरी मौका! 5 लाख का मुफ़्त इलाज। रजिस्ट्रेशन फीस Rs 299 भेजें और OTP बताएं: 6398127450"
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Amazon Pay: You are eligible for Rs 5000 festival gift card. Scan the QR code sent on WhatsApp and enter PIN to receive the amount."
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Mera naam Sunita hai, main NGO se hoon. Aapke naam par sarkari pension yojana mein Rs 18000 aaye hain, apna ATM card number aur expiry batayein taaki paise bhej"
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Congratulations! Your old 5 rupee coin collection can be sold for Rs 9 lakh. Register on our website coinbazaar-india.net with Rs 1,100 listing fee."
+    },
+    {
+      "case": "scam",
+      "text": "इनकम टैक्स विभाग: आपके ऊपर Rs 64,300 का टैक्स बकाया है। आज भुगतान न करने पर आपकी संपत्ति ज़ब्त होगी। तुरंत 8801927364 पर कॉल करें।",
+      "raw": "{\n  \"doc_type\": \"sms\",\n  \"verdict\": \"suspicious\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"टैक्स बकाया\",\n    \"संपत्ति ज़ब्त\",\n    \"पर फोन करें\",\n    \"प्राइवेट नंबर\",\n    \"अनु"
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Dear user, your WhatsApp account will be suspended. Verify now by sending the 6 digit code you just received to this number."
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Loan approved! Rs 2,00,000 personal loan without documents at 0% interest. Pehle Rs 2,999 file charge bhejein phir loan turant account mein."
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Dear SBI Customer, Rs.15000 withdrawn at SBI ATM S1BW000123 from A/cX4321 on 16Sep26 Transaction number 7654. Avl Bal Rs 84,210. If not you call 1800 1234."
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Rs 12,500 credited to your Kotak A/c XX7788 on 15-09-2026 by NEFT from RAJESH SHARMA. Avl bal Rs 45,320."
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "HP Gas: Your LPG refill booking no 1234567 is confirmed. Cash memo generated. Delivery expected within 2 days. Delivery authentication code 4821."
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Dear Member, your claim for PF final settlement has been settled and Rs 1,48,000 will be credited to your bank account XX4412 in 2-3 days. -EPFO"
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Dear Parent, Term 2 school fee of Rs 18,500 for Aarav (Class 6) is due by 30-09-2026. Pay at the school office or through the school ERP portal."
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Your PharmEasy order with 3 medicines has been dispatched and will be delivered tomorrow between 10 AM and 2 PM. Keep the prescription ready."
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Dear Pensioner, your Digital Life Certificate submitted on 12-09-2026 has been successfully processed. Your pension will continue without interruption. -SBI"
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Your Netflix membership has been renewed for Rs 199. Next billing date 17-10-2026. Manage your plan at netflix.com/account."
+    }
+  ],
+  "model": "base",
+  "seconds_per_example": 2.88
+}

@@ -1,0 +1,24 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Generated / large artifacts (regenerate with samjhao-data and scripts/train.sh)
+data/*.jsonl
+adapters/0*_adapters.safetensors
+adapters_smoke_test/
+smoke_test_data/
+logs/
+
+# Secrets & runtime state
+.env
+.env.*
+state.json
+
+.DS_Store

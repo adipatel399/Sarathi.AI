@@ -1,0 +1,55 @@
+{
+  "examples": 315,
+  "valid_json_pct": 100.0,
+  "verdict_accuracy_pct": 99.0,
+  "doc_type_accuracy_pct": 99.0,
+  "dangerous_recall_pct": 98.7,
+  "safe_messages_flagged_as_scam": 1,
+  "safe_messages_total": 150,
+  "reply_language_correct_pct": 100.0,
+  "per_case_verdict_accuracy_pct": {
+    "appointment": 100.0,
+    "debit_alert": 93.3,
+    "delivery_update": 100.0,
+    "digital_arrest": 100.0,
+    "electricity_bill_genuine": 100.0,
+    "electricity_cut_scam": 86.7,
+    "family_impersonation": 100.0,
+    "insurance_premium": 100.0,
+    "job_scam": 100.0,
+    "kyc_scam": 100.0,
+    "life_certificate": 100.0,
+    "lottery_scam": 100.0,
+    "otp_genuine": 100.0,
+    "parcel_fee_scam": 100.0,
+    "pension_credit": 100.0,
+    "pension_scam": 100.0,
+    "pmkisan_credit": 100.0,
+    "prescription": 100.0,
+    "sender_mismatch_debit": 100.0,
+    "upi_pin_scam": 100.0,
+    "wrong_number_opener": 100.0
+  },
+  "mistakes": [
+    {
+      "case": "electricity_cut_scam",
+      "gold": "scam",
+      "pred": "safe",
+      "text": "MSEDCL NOTICE: Your connection will be cut today due to pending bill verification. Call officer +91 6355920236 now to avoid disconnection."
+    },
+    {
+      "case": "electricity_cut_scam",
+      "gold": "scam",
+      "pred": "safe",
+      "text": "BESCOM NOTICE: Your connection will be cut today due to pending bill verification. Call officer +91 6710818771 now to avoid disconnection."
+    },
+    {
+      "case": "debit_alert",
+      "gold": "safe",
+      "pred": "scam",
+      "text": "Your Bank of Baroda a/c XX3947 is debited for INR 5,050 on 28-07-2026 by UPI ref 645395989476. Not you? Report at 1800 5700."
+    }
+  ],
+  "model": "lora:adapters",
+  "seconds_per_example": 2.57
+}

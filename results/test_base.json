@@ -1,0 +1,182 @@
+{
+  "examples": 63,
+  "valid_json_pct": 84.1,
+  "verdict_accuracy_pct": 41.3,
+  "doc_type_accuracy_pct": 0.0,
+  "dangerous_recall_pct": 73.3,
+  "safe_messages_flagged_as_scam": 13,
+  "safe_messages_total": 30,
+  "reply_language_correct_pct": 84.1,
+  "per_case_verdict_accuracy_pct": {
+    "appointment": 33.3,
+    "debit_alert": 0.0,
+    "delivery_update": 33.3,
+    "digital_arrest": 33.3,
+    "electricity_bill_genuine": 66.7,
+    "electricity_cut_scam": 0.0,
+    "family_impersonation": 0.0,
+    "insurance_premium": 100.0,
+    "job_scam": 100.0,
+    "kyc_scam": 0.0,
+    "life_certificate": 100.0,
+    "lottery_scam": 66.7,
+    "otp_genuine": 33.3,
+    "parcel_fee_scam": 0.0,
+    "pension_credit": 33.3,
+    "pension_scam": 0.0,
+    "pmkisan_credit": 0.0,
+    "prescription": 100.0,
+    "sender_mismatch_debit": 66.7,
+    "upi_pin_scam": 0.0,
+    "wrong_number_opener": 100.0
+  },
+  "mistakes": [
+    {
+      "case": "appointment",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Manipal Hospitals: Appointment confirmed. Doctor: Dr. Neha Kapoor, Orthopaedics. Date: 07-08-2026, Time: 5:30 PM. Reply C to cancel."
+    },
+    {
+      "case": "debit_alert",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Your Canara Bank a/c XX2633 is debited for INR 41,471 on 13-12-2026 by UPI ref 570187789840. Not you? Report at 1800 1030."
+    },
+    {
+      "case": "delivery_update",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Out for delivery: your pressure cooker will arrive today. Delivery OTP 306808 - share it only with the delivery agent at your door. -Meesho"
+    },
+    {
+      "case": "electricity_cut_scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "MSEDCL NOTICE: Your connection will be cut today due to pending bill verification. Call officer +91 6355920236 now to avoid disconnection."
+    },
+    {
+      "case": "family_impersonation",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Uncle namaste, I am your son's friend. He had an accident, send Rs 4,645 immediately to rahul699@ibl for hospital deposit. Please don't call him now."
+    },
+    {
+      "case": "kyc_scam",
+      "text": "HDFC Bank ALERT: Your NetBanking will be suspended within 24 hrs. Complete PAN update here http://pm-kyc-update.xyz/8321 to avoid blocking.",
+      "raw": "{\n  \"doc_type\": \"sms\",\n  \"verdict\": \"suspicious\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"अपना बैंक बंद कर दिया गया\",\n    \"अज्ञात नंबर\",\n    \"अवैध लिंक\",\n    \"OTP या UPI PIN"
+    },
+    {
+      "case": "otp_genuine",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Dear Customer, OTP for login to Axis Bank NetBanking is 222470. Never share your OTP with anyone. Bank never asks for it."
+    },
+    {
+      "case": "parcel_fee_scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "FedEx: A courier in your name is held by customs. Pay customs duty Rs 4,203 to release it: http://pm-redelivery.xyz/32847"
+    },
+    {
+      "case": "pension_credit",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Dear Customer, INR 32,750 credited to your Punjab National Bank account XX5266 on 06-09-2026 (Pension September)."
+    },
+    {
+      "case": "pension_scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Pension Department: Your DA arrears of Rs 38,468 are pending. Call +91 8629917131 and verify your bank details and OTP to receive the arrears."
+    },
+    {
+      "case": "pmkisan_credit",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Dear Farmer, the PM-KISAN installment of Rs 2000 is transferred to your SBI a/c XX3227. Check status on pmkisan.gov.in."
+    },
+    {
+      "case": "upi_pin_scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Refund of Rs 46,628 for your electricity overpayment is pending. Accept the collect request and enter UPI PIN to get the refund."
+    },
+    {
+      "case": "debit_alert",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Your Punjab National Bank a/c XX3228 is debited for INR 29,296 on 18-01-2026 by UPI ref 345829116326. Not you? Report at 1800 180 2222."
+    },
+    {
+      "case": "delivery_update",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Out for delivery: your pressure cooker will arrive today. Delivery OTP 778338 - share it only with the delivery agent at your door. -Amazon"
+    },
+    {
+      "case": "digital_arrest",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "NOTICE from TRAI: Your Aadhaar is linked to a money laundering case. Join video call on WhatsApp +91 7909798275 for verification and transfer your savings to th"
+    },
+    {
+      "case": "electricity_bill_genuine",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "UPPCL: Last reminder! Bill of Rs 10,692 for CA No 2907352333 is due on 28-07-2026. Pay by due date to avoid late payment surcharge."
+    },
+    {
+      "case": "electricity_cut_scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "TNPDCL NOTICE: Your connection will be cut today due to pending bill verification. Call officer +91 9685014175 now to avoid disconnection."
+    },
+    {
+      "case": "family_impersonation",
+      "text": "Uncle namaste, I am your son's friend. He had an accident, send Rs 31,302 immediately to help5765@ibl for hospital deposit. Please don't call him now.",
+      "raw": "{\n  \"doc_type\": \"sms\",\n  \"verdict\": \"suspicious\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"लोग के बच्चे के दोस्त\",\n    \"निश्चित बैंक नंबर\",\n    \"मुफ्त बच्चे के बारे में बात क"
+    },
+    {
+      "case": "kyc_scam",
+      "text": "HDFC Bank ALERT: Your NetBanking will be suspended within 24 hrs. Complete PAN update here http://bank-secure-login.online/24648 to avoid blocking.",
+      "raw": "{\n  \"doc_type\": \"sms\",\n  \"verdict\": \"suspicious\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"अपना बैंक अपडेट करें\",\n    \"अनुमति लेने के लिए OTP\",\n    \"अज्ञात नंबर\",\n    \"अनुचित"
+    },
+    {
+      "case": "otp_genuine",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Dear Customer, OTP for login to Axis Bank NetBanking is 849134. Never share your OTP with anyone. Bank never asks for it."
+    },
+    {
+      "case": "parcel_fee_scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "FedEx: A courier in your name is held by customs. Pay customs duty Rs 42,152 to release it: http://pm-redelivery.in/49922"
+    },
+    {
+      "case": "pension_credit",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Dear Customer, INR 41,679 credited to your Canara Bank account XX5850 on 02-03-2026 (Pension March)."
+    },
+    {
+      "case": "pension_scam",
+      "text": "Pension Department: Your DA arrears of Rs 906 are pending. Call +91 6126616068 and verify your bank details and OTP to receive the arrears.",
+      "raw": "{\n  \"doc_type\": \"sms\",\n  \"verdict\": \"suspicious\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"लोग अपना बैंक नंबर देते हैं\",\n    \"OTP या UPI PIN लेने के लिए मांग करते हैं\",\n    \""
+    },
+    {
+      "case": "pmkisan_credit",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Dear Farmer, the PM-KISAN installment of Rs 2000 is transferred to your Canara Bank a/c XX7615. Check status on pmkisan.gov.in."
+    },
+    {
+      "case": "sender_mismatch_debit",
+      "text": "Dear customer Rs 39,097 is debited from Axis Bank A/c XX7000. Not you? Call customer care +91 9203734166 and share OTP to block the payment.",
+      "raw": "{\n  \"doc_type\": \"sms\",\n  \"verdict\": \"scam\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"लोग अपना नंबर बताते हैं\",\n    \"OTP लेने के लिए मांग करते हैं\",\n    \"बैंक के नंबर पर बात क"
+    }
+  ],
+  "model": "base",
+  "seconds_per_example": 3.13
+}
