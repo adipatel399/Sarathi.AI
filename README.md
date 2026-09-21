@@ -7,6 +7,10 @@ dangerous, their son or daughter gets an alert.
 
 Nothing leaves the machine: model, OCR and speech all run locally.
 
+Samjhao also has a conservative deterministic safety net around the model. It catches high-confidence combinations
+such as an organisation impersonated from a personal number plus an urgent call, payment, credential or external-link
+request. This directly guards the known utility-disconnection false-negative class without changing ordinary safe bills.
+
 ```
 Parent (Telegram)  ── text / photo ──►  Apple Vision OCR (photos)
                                               │
@@ -19,6 +23,10 @@ Parent (Telegram)  ── text / photo ──►  Apple Vision OCR (photos)
                     ▼                         ▼                          ▼
              text reply (hi/en)    voice note (macOS Lekha/Rishi)   family alert if dangerous
 ```
+
+Suspicious replies show up to three plain-language reasons so a parent can understand *why* they should be careful,
+not just see a red warning. Model output is schema-validated before use, and contradictory output cannot silently
+disable a scam alert.
 
 ## Results
 

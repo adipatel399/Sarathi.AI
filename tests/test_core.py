@@ -2,9 +2,11 @@ import json
 import re
 
 from explain_assistant.assistant import build_reply, split_sender
+from explain_assistant.bot import State
 from explain_assistant.data_gen import CASES, LABEL_KEYS, _holdout_index, generate
 from explain_assistant.model import Verdict, parse_verdict
 from explain_assistant.prompt import DOC_TYPES
+from explain_assistant.safety import apply_safety_net
 
 
 def test_parse_verdict_handles_noise_around_json():
@@ -17,6 +19,43 @@ def test_parse_verdict_rejects_garbage():
     assert parse_verdict("no json here") is None
     assert parse_verdict('{"verdict": "safe"') is None
     assert parse_verdict('{"explanation": "missing keys"}') is None
+    assert parse_verdict('{"doc_type":"x","verdict":"maybe","red_flags":[]}') is None
+    assert parse_verdict('{"doc_type":"x","verdict":"safe","is_dangerous":"false","red_flags":[]}') is None
+
+
+def test_parse_verdict_handles_braces_and_multiple_objects():
+    raw = 'note {not json} then {"doc_type":"otp","verdict":"safe","urgency":"low","red_flags":[],"explanation":"Use {care}","what_to_do":"wait"}'
+    assert parse_verdict(raw).doc_type == "otp"
+
+
+def test_scam_verdict_cannot_disable_family_alert():
+    raw = '{"doc_type":"scam","verdict":"scam","is_dangerous":false,"urgency":"high","red_flags":[]}'
+    assert parse_verdict(raw).is_dangerous
+
+
+def test_safety_net_catches_personal_number_utility_false_negative():
+    safe = Verdict("utility_bill", "safe", False, "low", [], "Normal bill", "Pay it")
+    result = apply_safety_net(
+        safe, "+91 9876543210", "MSEDCL electricity disconnected tonight. Call officer now", "en"
+    )
+    assert result.verdict == "scam" and result.is_dangerous
+    assert "personal_number_impersonation" in result.red_flags
+
+
+def test_safety_net_does_not_upgrade_normal_bill():
+    safe = Verdict("utility_bill", "safe", False, "low", [], "Normal bill", "Pay it")
+    result = apply_safety_net(safe, "VM-MSEDCL", "Your electricity bill is due on 25 June", "en")
+    assert result == safe
+
+
+def test_state_recovers_from_corruption_and_saves_atomically(tmp_path):
+    path = tmp_path / "state.json"
+    path.write_text("not json")
+    state = State(path)
+    assert state.language(42) == "hi"
+    state.set_language(42, "en")
+    assert json.loads(path.read_text())["language"]["42"] == "en"
+    assert not path.with_suffix(".json.tmp").exists()
 
 
 def test_split_sender():

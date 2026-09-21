@@ -27,17 +27,34 @@ WELCOME = (
     "Hello! Forward any confusing message or send a photo of a letter, bill or prescription.\n\n"
     "Tip: add the SMS sender on the first line, e.g. 'From: VM-HDFCBK'."
 )
+MAX_MESSAGE_CHARS = 12_000
 
 
 class State:
     def __init__(self, path: Path):
         self.path = path
         self.lock = threading.Lock()
-        self.data = json.loads(path.read_text()) if path.exists() else {"language": {}, "family": {}}
+        self.data = self._load()
+
+    def _load(self) -> dict:
+        if not self.path.exists():
+            return {"language": {}, "family": {}}
+        try:
+            data = json.loads(self.path.read_text(encoding="utf-8"))
+            if not isinstance(data, dict):
+                raise ValueError("state root must be an object")
+            data.setdefault("language", {})
+            data.setdefault("family", {})
+            return data
+        except (OSError, ValueError, json.JSONDecodeError):
+            log.exception("state file is unreadable; starting with empty state")
+            return {"language": {}, "family": {}}
 
     def _save(self):
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.path.write_text(json.dumps(self.data, indent=2))
+        temp = self.path.with_suffix(self.path.suffix + ".tmp")
+        temp.write_text(json.dumps(self.data, indent=2), encoding="utf-8")
+        temp.replace(self.path)
 
     def language(self, chat_id: int) -> str:
         return self.data["language"].get(str(chat_id), "hi")
@@ -94,6 +111,9 @@ class SamjhaoBot:
 
     async def on_text(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         sender, body = split_sender(update.message.text)
+        if len(body) > MAX_MESSAGE_CHARS:
+            await update.message.reply_text("यह संदेश बहुत लंबा है। कृपया छोटा हिस्सा भेजें।\nThis message is too long. Please send a shorter section.")
+            return
         await self._answer(update, context, sender, body)
 
     async def on_photo(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -115,8 +135,12 @@ class SamjhaoBot:
         chat_id = update.effective_chat.id
         lang = self.state.language(chat_id)
         await context.bot.send_chat_action(chat_id, "typing")
-        async with self.model_lock:
-            verdict = await asyncio.to_thread(self.explainer.explain, sender, body, lang)
+        try:
+            async with self.model_lock:
+                verdict = await asyncio.to_thread(self.explainer.explain, sender, body, lang)
+        except Exception:
+            log.exception("explanation failed")
+            verdict = None
         reply = build_reply(verdict, lang)
         await update.message.reply_text(reply.text)
 

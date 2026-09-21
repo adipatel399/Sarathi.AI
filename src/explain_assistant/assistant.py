@@ -14,6 +14,17 @@ HEADINGS = {
            "todo": "What to do", "error": "Sorry, I couldn't understand this message. Please send it again or ask your family."},
 }
 
+FLAG_LABELS = {
+    "hi": "क्यों सावधान रहें",
+    "en": "Why to be careful",
+}
+
+FLAG_NAMES_HI = {
+    "personal_number_impersonation": "संस्था के नाम से निजी नंबर",
+    "credential_request": "OTP या गुप्त जानकारी की मांग",
+    "urgent_external_action": "जल्दबाज़ी में लिंक, कॉल या भुगतान का दबाव",
+}
+
 
 @dataclass
 class Reply:
@@ -37,7 +48,14 @@ def build_reply(verdict: Verdict | None, language: str) -> Reply:
     if verdict is None:
         return Reply(text=h["error"], speech=h["error"], alert_family=False)
     heading = h.get(verdict.verdict, h["suspicious"])
-    text = f"{heading}\n\n{verdict.explanation}\n\n👉 {h['todo']}: {verdict.what_to_do}"
+    flags = ""
+    if verdict.verdict != "safe" and verdict.red_flags:
+        readable = ", ".join(
+            FLAG_NAMES_HI.get(flag, flag.replace("_", " ")) if language == "hi" else flag.replace("_", " ")
+            for flag in verdict.red_flags[:3]
+        )
+        flags = f"\n\n🔎 {FLAG_LABELS.get(language, FLAG_LABELS['en'])}: {readable}"
+    text = f"{heading}\n\n{verdict.explanation}{flags}\n\n👉 {h['todo']}: {verdict.what_to_do}"
     speech = f"{heading.lstrip('⚠️🤔✅ ')}. {verdict.explanation} {verdict.what_to_do}"
     alert = verdict.is_dangerous or (verdict.verdict == "scam" and verdict.urgency == "high")
     return Reply(text=text, speech=speech, alert_family=alert)
