@@ -2,6 +2,7 @@ import json
 import re
 
 from explain_assistant.assistant import build_reply, split_sender
+from explain_assistant.audit import audit, normalize
 from explain_assistant.bot import State
 from explain_assistant.data_gen import CASES, LABEL_KEYS, _holdout_index, generate
 from explain_assistant.model import Verdict, parse_verdict
@@ -48,6 +49,18 @@ def test_safety_net_does_not_upgrade_normal_bill():
     assert result == safe
 
 
+def test_safety_net_does_not_misread_credential_safety_advice():
+    safe = Verdict("bank_alert", "safe", False, "low", [], "Safety advice", "No action")
+    english = apply_safety_net(
+        safe, "VK-SBIINB", "SBI will NEVER ask you to share OTP, PIN or CVV. Call the number on your card.", "en"
+    )
+    hindi = apply_safety_net(
+        safe, "VK-SBIINB", "बैंक कर्मचारी कभी नहीं पूछते। OTP या PIN किसी को मत बताएं।", "hi"
+    )
+    assert english == safe
+    assert hindi == safe
+
+
 def test_state_recovers_from_corruption_and_saves_atomically(tmp_path):
     path = tmp_path / "state.json"
     path.write_text("not json")
@@ -56,6 +69,13 @@ def test_state_recovers_from_corruption_and_saves_atomically(tmp_path):
     state.set_language(42, "en")
     assert json.loads(path.read_text())["language"]["42"] == "en"
     assert not path.with_suffix(".json.tmp").exists()
+
+
+def test_overlap_audit_normalizes_urls_and_numbers():
+    assert normalize("Pay 500 at HTTP://bad.xyz/123") == "pay <number> at <url>"
+    train = [{"meta": {"text": "Pay Rs 100 at http://bad.xyz/a"}}]
+    evaluation = [{"text": "Pay Rs 999 at http://bad.xyz/b"}]
+    assert audit(train, evaluation)["exact_normalized_duplicates"] == 1
 
 
 def test_split_sender():

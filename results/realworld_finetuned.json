@@ -2,8 +2,16 @@
   "examples": 40,
   "valid_json_pct": 100.0,
   "verdict_accuracy_pct": 100.0,
+  "verdict_accuracy_95ci_pct": [
+    91.2,
+    100
+  ],
   "doc_type_accuracy_pct": 75.0,
   "dangerous_recall_pct": 100.0,
+  "dangerous_recall_95ci_pct": [
+    83.2,
+    100
+  ],
   "safe_messages_flagged_as_scam": 0,
   "safe_messages_total": 19,
   "reply_language_correct_pct": 100.0,
@@ -13,6 +21,30 @@
     "suspicious": 100.0
   },
   "mistakes": [],
+  "with_safety_net": {
+    "examples": 40,
+    "valid_json_pct": 100.0,
+    "verdict_accuracy_pct": 100.0,
+    "verdict_accuracy_95ci_pct": [
+      91.2,
+      100
+    ],
+    "doc_type_accuracy_pct": 75.0,
+    "dangerous_recall_pct": 100.0,
+    "dangerous_recall_95ci_pct": [
+      83.2,
+      100
+    ],
+    "safe_messages_flagged_as_scam": 0,
+    "safe_messages_total": 19,
+    "reply_language_correct_pct": 100.0,
+    "per_case_verdict_accuracy_pct": {
+      "safe": 100.0,
+      "scam": 100.0,
+      "suspicious": 100.0
+    },
+    "mistakes": []
+  },
   "model": "lora:adapters",
-  "seconds_per_example": 2.42
+  "seconds_per_example": 2.46
 }

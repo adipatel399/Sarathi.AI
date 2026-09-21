@@ -11,6 +11,14 @@ from explain_assistant.model import Verdict
 
 _PERSONAL_SENDER = re.compile(r"(?:\+?91[\s-]?)?[6-9]\d{9}$")
 _CREDENTIAL = re.compile(r"\b(?:otp|upi\s*pin|cvv|password|mpin)\b", re.IGNORECASE)
+_CREDENTIAL_REQUEST = re.compile(
+    r"\b(?:share|tell|enter|send|reply|give|provide|verify|बताइए|बताएं|डालें|भेजें|साझा)\b",
+    re.IGNORECASE,
+)
+_CREDENTIAL_NEGATION = re.compile(
+    r"\b(?:never|do\s+not|don't|not\s+ask|कभी\s+नहीं|नहीं\s+पूछते|मत\s+बताएं|न\s+बताएं)\b",
+    re.IGNORECASE,
+)
 _PAYMENT = re.compile(r"\b(?:pay|payment|fee|transfer|send\s+money|upi|रुपये|भुगतान|पैसे)\b", re.IGNORECASE)
 _URGENCY = re.compile(
     r"\b(?:immediately|urgent|today|tonight|within\s+\d+\s*(?:min|hour)|blocked?|"
@@ -31,8 +39,14 @@ def _looks_personal(sender: str) -> bool:
 def apply_safety_net(verdict: Verdict, sender: str, text: str, language: str) -> Verdict:
     """Upgrade likely false negatives using a conservative combination of signals."""
     signals: list[str] = []
+    untrusted_sender = _looks_personal(sender) or sender.strip().lower() in {"", "unknown"}
     personal_impersonation = _looks_personal(sender) and bool(_IMPERSONATION.search(text))
-    credential_request = bool(_CREDENTIAL.search(text) and _OFF_PLATFORM.search(text))
+    credential_request = bool(
+        untrusted_sender
+        and _CREDENTIAL.search(text)
+        and _CREDENTIAL_REQUEST.search(text)
+        and not _CREDENTIAL_NEGATION.search(text)
+    )
     coercive_action = bool(_URGENCY.search(text) and (_PAYMENT.search(text) or _OFF_PLATFORM.search(text)))
 
     if personal_impersonation:

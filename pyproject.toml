@@ -17,6 +17,7 @@ sarathiai = "explain_assistant:main"
 sarathiai-bot = "explain_assistant.bot:main"
 sarathiai-data = "explain_assistant.data_gen:main"
 sarathiai-eval = "explain_assistant.evaluate:main"
+sarathiai-audit = "explain_assistant.audit:main"
 # Backward-compatible aliases for existing users and scripts.
 samjhao = "explain_assistant:main"
 samjhao-bot = "explain_assistant.bot:main"

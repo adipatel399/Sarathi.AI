@@ -1,0 +1,112 @@
+{
+  "examples": 50,
+  "valid_json_pct": 100.0,
+  "verdict_accuracy_pct": 90.0,
+  "verdict_accuracy_95ci_pct": [
+    78.6,
+    95.7
+  ],
+  "doc_type_accuracy_pct": 68.0,
+  "dangerous_recall_pct": 100.0,
+  "dangerous_recall_95ci_pct": [
+    86.2,
+    100
+  ],
+  "safe_messages_flagged_as_scam": 1,
+  "safe_messages_total": 20,
+  "reply_language_correct_pct": 100.0,
+  "per_case_verdict_accuracy_pct": {
+    "safe": 95.0,
+    "scam": 100.0,
+    "suspicious": 33.3
+  },
+  "mistakes": [
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "scam",
+      "text": "I am outside your gate with the medicines you ordered. Please come down; pay the amount shown in your pharmacy app after checking the packet."
+    },
+    {
+      "case": "suspicious",
+      "gold": "suspicious",
+      "pred": "scam",
+      "text": "Hello aunty, I met you at the temple last month. Are you still interested in the investment plan I mentioned?"
+    },
+    {
+      "case": "suspicious",
+      "gold": "suspicious",
+      "pred": "scam",
+      "text": "Your parcel could not be delivered. Reply with your house landmark; no payment is needed."
+    },
+    {
+      "case": "suspicious",
+      "gold": "suspicious",
+      "pred": "scam",
+      "text": "I found a wallet with your name and an old number inside. Confirm your full address so I can courier it."
+    },
+    {
+      "case": "suspicious",
+      "gold": "suspicious",
+      "pred": "safe",
+      "text": "Society maintenance is overdue according to our list. Please check with the office; I do not have payment details."
+    }
+  ],
+  "with_safety_net": {
+    "examples": 50,
+    "valid_json_pct": 100.0,
+    "verdict_accuracy_pct": 90.0,
+    "verdict_accuracy_95ci_pct": [
+      78.6,
+      95.7
+    ],
+    "doc_type_accuracy_pct": 68.0,
+    "dangerous_recall_pct": 100.0,
+    "dangerous_recall_95ci_pct": [
+      86.2,
+      100
+    ],
+    "safe_messages_flagged_as_scam": 1,
+    "safe_messages_total": 20,
+    "reply_language_correct_pct": 100.0,
+    "per_case_verdict_accuracy_pct": {
+      "safe": 95.0,
+      "scam": 100.0,
+      "suspicious": 33.3
+    },
+    "mistakes": [
+      {
+        "case": "safe",
+        "gold": "safe",
+        "pred": "scam",
+        "text": "I am outside your gate with the medicines you ordered. Please come down; pay the amount shown in your pharmacy app after checking the packet."
+      },
+      {
+        "case": "suspicious",
+        "gold": "suspicious",
+        "pred": "scam",
+        "text": "Hello aunty, I met you at the temple last month. Are you still interested in the investment plan I mentioned?"
+      },
+      {
+        "case": "suspicious",
+        "gold": "suspicious",
+        "pred": "scam",
+        "text": "Your parcel could not be delivered. Reply with your house landmark; no payment is needed."
+      },
+      {
+        "case": "suspicious",
+        "gold": "suspicious",
+        "pred": "scam",
+        "text": "I found a wallet with your name and an old number inside. Confirm your full address so I can courier it."
+      },
+      {
+        "case": "suspicious",
+        "gold": "suspicious",
+        "pred": "safe",
+        "text": "Society maintenance is overdue according to our list. Please check with the office; I do not have payment details."
+      }
+    ]
+  },
+  "model": "lora:adapters",
+  "seconds_per_example": 2.14
+}

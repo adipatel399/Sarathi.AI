@@ -1,0 +1,7 @@
+{
+  "evaluation_examples": 50,
+  "exact_normalized_duplicates": 0,
+  "nearest_train_token_similarity_median": 0.139,
+  "nearest_train_token_similarity_p95": 0.222,
+  "examples_above_0_8_similarity": 0
+}

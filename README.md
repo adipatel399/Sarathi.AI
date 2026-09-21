@@ -30,6 +30,26 @@ disable a scam alert.
 
 ## Results
 
+### Independent challenge set (primary)
+
+The strongest current test is a 50-message, evaluation-only challenge set that does not come from the synthetic
+training generator. It includes unfamiliar scam families, obfuscated credentials, prompt injection, quoted safety
+warnings, legitimate urgent notices, personal-number edge cases and deliberately ambiguous messages.
+
+| | Base Qwen3-4B | **Sarathi.AI (fine-tuned)** |
+|---|---:|---:|
+| Exact verdict accuracy | 74.0% | **90.0%** |
+| Dangerous messages caught | 91.7% | **100%** (24/24) |
+| Genuine messages wrongly called scams | 5 of 20 | **1 of 20** |
+| Document-type accuracy | 0.0% | **68.0%** |
+| Valid JSON | 94.0% | **100%** |
+
+The 90% exact-verdict score includes four disagreements on the intentionally fuzzy boundary between `suspicious`
+and `scam`. It should still be treated as an estimate: with only 50 examples, its 95% confidence interval is wide.
+The challenge set is now frozen and must not be used for training or prompt tuning.
+
+### Earlier author-written benchmark (secondary)
+
 Same prompt for both models, greedy decoding, on an M4 MacBook Pro (16 GB).
 
 **40 hand-written real-world-style messages** (`evals/realworld.json`) — scam types and senders *never seen in
@@ -46,6 +66,12 @@ EMI/property-tax messages and OCR'd documents.
 | Reply in the requested language | 80.0% | **100%** |
 | Seconds per message | 2.9 | 2.4 |
 
+### Synthetic paraphrase benchmark (regression only)
+
+The 99% result below is **not a real-world accuracy claim**. Train and test use different wording templates, but they
+share the same generator, message families, entities and label policy. It measures in-distribution paraphrase
+generalisation and regression safety. Use the independent challenge result above when describing model quality.
+
 **Held-out test split** (315 messages, wording never seen in training):
 
 | | Base Qwen3-4B (63-msg stratified subset) | **Sarathi.AI** (all 315) |
@@ -58,6 +84,8 @@ EMI/property-tax messages and OCR'd documents.
 | Reply in the requested language | 84.1% | **100%** |
 
 What the numbers mean — and don't:
+- The 99% headline is specific to the synthetic generator distribution. It is retained for reproducibility, not as
+  evidence of 99% accuracy on messages from the public.
 - The base model usually *senses* danger but hedges with "suspicious", calls genuine bank/OTP/hospital
   messages suspicious (the false alarms that make elderly users stop trusting a tool), and often runs out of
   its 400-token budget writing long red-flag lists, which is why some of its JSON is invalid.
@@ -140,4 +168,8 @@ TELEGRAM_BOT_TOKEN=... uv run sarathiai-bot
 
 ```bash
 uv run pytest
+uv run sarathiai-audit --eval evals/challenge.json
 ```
+
+The overlap audit normalizes numbers and URLs, then measures each evaluation message against its nearest training
+message. Current challenge-set median nearest-token similarity is 0.139, versus 0.250 for the synthetic test set.

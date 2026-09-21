@@ -1,0 +1,94 @@
+{
+  "examples": 50,
+  "valid_json_pct": 94.0,
+  "verdict_accuracy_pct": 74.0,
+  "doc_type_accuracy_pct": 0.0,
+  "dangerous_recall_pct": 91.7,
+  "safe_messages_flagged_as_scam": 5,
+  "safe_messages_total": 20,
+  "reply_language_correct_pct": 94.0,
+  "per_case_verdict_accuracy_pct": {
+    "safe": 70.0,
+    "scam": 75.0,
+    "suspicious": 83.3
+  },
+  "mistakes": [
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Income Tax Return for AY 2026-27 has been processed. Refund details are available after signing in directly at incometax.gov.in. No reply required."
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Your biopsy report is ready. For privacy, collect it at the hospital desk with photo ID. We do not send reports over WhatsApp."
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Reminder: EMI Rs 12,840 is due tomorrow and will be auto-debited from account XX9011. Maintain sufficient balance; no link or OTP is required."
+    },
+    {
+      "case": "safe",
+      "text": "डॉ. सीमा आज उपलब्ध नहीं हैं। आपका अपॉइंटमेंट अपने आप 24 सितंबर शाम 4 बजे कर दिया गया है। बदलने के लिए अस्पताल के मुख्य नंबर पर कॉल करें।",
+      "raw": "{\n  \"doc_type\": \"forwarded_message\",\n  \"verdict\": \"suspicious\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"VK-MAXHLT\",\n    \"अपने आप अपॉइंटमेंट कर दिया गया\",\n    \"मुख्य नंबर पर "
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "I am outside your gate with the medicines you ordered. Please come down; pay the amount shown in your pharmacy app after checking the packet."
+    },
+    {
+      "case": "safe",
+      "gold": "safe",
+      "pred": "suspicious",
+      "text": "Rs 1 credited to verify your account for an approved mandate. No OTP or action is required. Mandate details are visible in your banking app."
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Telecom Department: your SIM will expire tonight. Dial **21*9870011223# now to complete 5G verification."
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "Your FASTag has negative KYC status. Download fastag-support.apk and allow SMS permission to restore toll access."
+    },
+    {
+      "case": "scam",
+      "text": "आपका बेटा अस्पताल में है। उसका फोन बंद है। अभी 25,000 रुपये emergencyhelp@upi पर भेजें और किसी को फोन न करें।",
+      "raw": "{\n  \"doc_type\": \"forwarded_message\",\n  \"verdict\": \"scam\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"लोग अपने बेटे के बारे में बताते हैं\",\n    \"अस्पताल में है\",\n    \"UPI पर पैस"
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "बैंक अधिकारी बोल रहा हूँ। O T P शब्द मत लिखिए, बस आए हुए छह अंक एक-एक करके बताइए, खाता बंद होने वाला है।"
+    },
+    {
+      "case": "scam",
+      "text": "आपका जीवन प्रमाण रद्द है। pension-help[.]xyz खोलकर आधार, बैंक नंबर और कैमरा अनुमति दें।",
+      "raw": "{\n  \"doc_type\": \"forwarded_message\",\n  \"verdict\": \"scam\",\n  \"is_dangerous\": true,\n  \"urgency\": \"high\",\n  \"red_flags\": [\n    \"पेन्शन-हेल्प\",\n    \"कैमरा अनुमति\",\n    \"आधार\",\n    \"बैंक नंबर\",\n    \"प्रमाण"
+    },
+    {
+      "case": "scam",
+      "gold": "scam",
+      "pred": "suspicious",
+      "text": "फोन में वायरस है। QuickSupport ऐप लगाएँ और स्क्रीन पर दिख रहा access code हमें बताएं। फीस केवल 10 रुपये है।"
+    },
+    {
+      "case": "suspicious",
+      "gold": "suspicious",
+      "pred": "safe",
+      "text": "Society maintenance is overdue according to our list. Please check with the office; I do not have payment details."
+    }
+  ],
+  "model": "base",
+  "seconds_per_example": 2.41
+}
