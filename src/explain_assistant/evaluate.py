@@ -93,7 +93,7 @@ def score(rows: list[dict], raw_outputs: list[str]) -> dict:
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Evaluate SarathiAI on the held-out test split.")
+    ap = argparse.ArgumentParser(description="Evaluate Sarathi.AI on the held-out test split.")
     ap.add_argument("--data", default="data/test.jsonl")
     ap.add_argument("--adapter", default="adapters", help="LoRA adapter dir; pass 'none' for the base model")
     ap.add_argument("--limit", type=int, default=None, help="stratified subset size")

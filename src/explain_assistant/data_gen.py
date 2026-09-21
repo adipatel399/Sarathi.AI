@@ -1,4 +1,4 @@
-"""Synthetic training data for SarathiAI.
+"""Synthetic training data for Sarathi.AI.
 
 Each case has several message phrasings; one alternate English phrasing per case is reserved for
 the test split, so the eval measures generalisation to unseen wording, not memorisation.

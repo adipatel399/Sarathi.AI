@@ -27,7 +27,7 @@ STATE_PATH = Path(
 )
 
 WELCOME = (
-    "नमस्ते! मैं SarathiAI हूँ—आपका भरोसेमंद AI मार्गदर्शक। कोई भी संदेश, बिल, दवा का पर्चा या सरकारी चिट्ठी जो समझ न आए, "
+    "नमस्ते! मैं Sarathi.AI हूँ—आपका भरोसेमंद AI मार्गदर्शक। कोई भी संदेश, बिल, दवा का पर्चा या सरकारी चिट्ठी जो समझ न आए, "
     "मुझे फ़ॉरवर्ड करें या उसकी फ़ोटो भेजें। मैं आसान शब्दों में बताऊँगा कि यह क्या है और क्या करना है।\n\n"
     "Hello! Forward any confusing message or send a photo of a letter, bill or prescription.\n\n"
     "Tip: add the SMS sender on the first line, e.g. 'From: VM-HDFCBK'."
@@ -184,7 +184,7 @@ def main():
     app.add_handler(CallbackQueryHandler(bot.choose_language, pattern=r"^lang:"))
     app.add_handler(MessageHandler(filters.PHOTO, bot.on_photo))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, bot.on_text))
-    log.info("SarathiAI bot running")
+    log.info("Sarathi.AI bot running")
     app.run_polling()
 
 

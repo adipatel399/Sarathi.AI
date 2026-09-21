@@ -1,4 +1,4 @@
-# SarathiAI (सारथी AI) — Your trusted AI guide
+# Sarathi.AI (सारथी AI) — Your trusted AI guide
 
 **An on-device AI helper for elderly Indians.** A parent forwards any confusing SMS, bill, prescription or
 government letter (or a photo of it) to a Telegram bot. A fine-tuned 4B model running on a MacBook replies in
@@ -7,7 +7,7 @@ dangerous, their son or daughter gets an alert.
 
 Nothing leaves the machine: model, OCR and speech all run locally.
 
-SarathiAI also has a conservative deterministic safety net around the model. It catches high-confidence combinations
+Sarathi.AI also has a conservative deterministic safety net around the model. It catches high-confidence combinations
 such as an organisation impersonated from a personal number plus an urgent call, payment, credential or external-link
 request. This directly guards the known utility-disconnection false-negative class without changing ordinary safe bills.
 
@@ -15,7 +15,7 @@ request. This directly guards the known utility-disconnection false-negative cla
 Parent (Telegram)  ── text / photo ──►  Apple Vision OCR (photos)
                                               │
                                               ▼
-                           Qwen3-4B-Instruct + SarathiAI LoRA (MLX, 4-bit)
+                           Qwen3-4B-Instruct + Sarathi.AI LoRA (MLX, 4-bit)
                            → {doc_type, verdict, is_dangerous, urgency,
                               red_flags, explanation, what_to_do}
                                               │
@@ -37,7 +37,7 @@ training*: FASTag KYC, Aadhaar "update fee", stock-tip WhatsApp groups, fake ele
 "sent money by mistake", Ayushman card fee, sextortion "police", plus genuine Jio/IRCTC/lab-report/school-fee/
 EMI/property-tax messages and OCR'd documents.
 
-| | Base Qwen3-4B | **SarathiAI (fine-tuned)** |
+| | Base Qwen3-4B | **Sarathi.AI (fine-tuned)** |
 |---|---|---|
 | Valid JSON | 85.0% | **100%** |
 | Verdict accuracy (safe / suspicious / scam) | 30.0% | **100%** (40/40) |
@@ -48,7 +48,7 @@ EMI/property-tax messages and OCR'd documents.
 
 **Held-out test split** (315 messages, wording never seen in training):
 
-| | Base Qwen3-4B (63-msg stratified subset) | **SarathiAI** (all 315) |
+| | Base Qwen3-4B (63-msg stratified subset) | **Sarathi.AI** (all 315) |
 |---|---|---|
 | Valid JSON | 84.1% | **100%** |
 | Verdict accuracy | 41.3% | **99.0%** |
@@ -63,7 +63,7 @@ What the numbers mean — and don't:
   its 400-token budget writing long red-flag lists, which is why some of its JSON is invalid.
 - The real-world set is small (40) and written by the author, so treat 100% as "no failures found on 40",
   not as a guarantee.
-- SarathiAI's 3 test mistakes: two electricity-disconnection scams from a `+91` number that named the real
+- Sarathi.AI's 3 test mistakes: two electricity-disconnection scams from a `+91` number that named the real
   utility (`MSEDCL NOTICE: … call officer`) were called safe, and one genuine Bank of Baroda debit alert was
   called a scam. Sender-vs-content mismatch on utility names is the clearest next thing to improve.
 - Raw reports with every mistake: `results/`.

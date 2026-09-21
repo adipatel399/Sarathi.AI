@@ -1,7 +1,7 @@
 [project]
 name = "explain-assistant"
 version = "0.1.0"
-description = "SarathiAI: an on-device AI guide that explains confusing Indian SMS, bills and letters to elderly people and flags scams"
+description = "Sarathi.AI: an on-device AI guide that explains confusing Indian SMS, bills and letters to elderly people and flags scams"
 readme = "README.md"
 authors = [
     { name = "Adi Patel", email = "pateladitya4999@gmail.com" }
