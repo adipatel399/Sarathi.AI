@@ -1,6 +1,6 @@
 """Telegram bot: parents forward confusing messages or photos, get a simple text + voice reply.
 
-Run:  TELEGRAM_BOT_TOKEN=... uv run samjhao-bot
+Run:  TELEGRAM_BOT_TOKEN=... uv run sarathiai-bot
 """
 
 import asyncio
@@ -18,11 +18,16 @@ from explain_assistant.assistant import build_reply, family_alert, split_sender
 from explain_assistant.model import DEFAULT_ADAPTER, Explainer
 from explain_assistant.voice import synthesize
 
-log = logging.getLogger("samjhao")
-STATE_PATH = Path(os.environ.get("SAMJHAO_STATE", Path.home() / ".samjhao" / "state.json"))
+log = logging.getLogger("sarathiai")
+_LEGACY_STATE_PATH = Path.home() / ".samjhao" / "state.json"
+STATE_PATH = Path(
+    os.environ.get("SARATHIAI_STATE")
+    or os.environ.get("SAMJHAO_STATE")
+    or (_LEGACY_STATE_PATH if _LEGACY_STATE_PATH.exists() else Path.home() / ".sarathiai" / "state.json")
+)
 
 WELCOME = (
-    "नमस्ते! मैं समझाओ हूँ। कोई भी संदेश, बिल, दवा का पर्चा या सरकारी चिट्ठी जो समझ न आए, "
+    "नमस्ते! मैं SarathiAI हूँ—आपका भरोसेमंद AI मार्गदर्शक। कोई भी संदेश, बिल, दवा का पर्चा या सरकारी चिट्ठी जो समझ न आए, "
     "मुझे फ़ॉरवर्ड करें या उसकी फ़ोटो भेजें। मैं आसान शब्दों में बताऊँगा कि यह क्या है और क्या करना है।\n\n"
     "Hello! Forward any confusing message or send a photo of a letter, bill or prescription.\n\n"
     "Tip: add the SMS sender on the first line, e.g. 'From: VM-HDFCBK'."
@@ -75,7 +80,7 @@ class State:
             self._save()
 
 
-class SamjhaoBot:
+class SarathiAIBot:
     def __init__(self, explainer: Explainer, state: State):
         self.explainer = explainer
         self.state = state
@@ -170,7 +175,8 @@ def main():
     if not token:
         raise SystemExit("Set TELEGRAM_BOT_TOKEN (create a bot with @BotFather).")
     log.info("loading model…")
-    bot = SamjhaoBot(Explainer(adapter_path=os.environ.get("SAMJHAO_ADAPTER", DEFAULT_ADAPTER)), State(STATE_PATH))
+    adapter = os.environ.get("SARATHIAI_ADAPTER") or os.environ.get("SAMJHAO_ADAPTER") or DEFAULT_ADAPTER
+    bot = SarathiAIBot(Explainer(adapter_path=adapter), State(STATE_PATH))
     app = Application.builder().token(token).concurrent_updates(True).build()
     app.add_handler(CommandHandler("start", bot.start))
     app.add_handler(CommandHandler("guardian", bot.guardian))
@@ -178,7 +184,7 @@ def main():
     app.add_handler(CallbackQueryHandler(bot.choose_language, pattern=r"^lang:"))
     app.add_handler(MessageHandler(filters.PHOTO, bot.on_photo))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, bot.on_text))
-    log.info("Samjhao bot running")
+    log.info("SarathiAI bot running")
     app.run_polling()
 
 

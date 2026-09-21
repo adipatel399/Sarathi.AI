@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(prog="samjhao", description="Explain a confusing Indian SMS/document in simple words.")
+    ap = argparse.ArgumentParser(prog="sarathiai", description="Explain a confusing Indian SMS/document in simple words.")
     ap.add_argument("text", nargs="?", help="message text (omit when using --image)")
     ap.add_argument("--sender", default="unknown", help="SMS sender, e.g. VM-HDFCBK or +91 98xxxxxx")
     ap.add_argument("--image", help="photo of a letter, bill or prescription")

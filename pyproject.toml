@@ -1,7 +1,7 @@
 [project]
 name = "explain-assistant"
 version = "0.1.0"
-description = "Samjhao: an on-device fine-tuned model that explains confusing Indian SMS, bills and letters to elderly people, in Hindi or English, and flags scams"
+description = "SarathiAI: an on-device AI guide that explains confusing Indian SMS, bills and letters to elderly people and flags scams"
 readme = "README.md"
 authors = [
     { name = "Adi Patel", email = "pateladitya4999@gmail.com" }
@@ -13,6 +13,11 @@ dependencies = [
 ]
 
 [project.scripts]
+sarathiai = "explain_assistant:main"
+sarathiai-bot = "explain_assistant.bot:main"
+sarathiai-data = "explain_assistant.data_gen:main"
+sarathiai-eval = "explain_assistant.evaluate:main"
+# Backward-compatible aliases for existing users and scripts.
 samjhao = "explain_assistant:main"
 samjhao-bot = "explain_assistant.bot:main"
 samjhao-data = "explain_assistant.data_gen:main"
