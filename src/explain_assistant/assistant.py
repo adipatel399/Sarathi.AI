@@ -9,9 +9,9 @@ _SENDER_LINE = re.compile(r"^\s*(?:from|sender|भेजने वाला)\s*[
 
 HEADINGS = {
     "hi": {"scam": "⚠️ सावधान: यह धोखा (स्कैम) है", "suspicious": "🤔 इस संदेश पर शक है", "safe": "✅ यह संदेश सुरक्षित लगता है",
-           "todo": "क्या करें", "error": "माफ़ कीजिए, मैं यह संदेश समझ नहीं पाया। कृपया दोबारा भेजें या परिवार से पूछें।"},
+           "todo": "क्या करें", "error": "मैं इस संदेश की जाँच नहीं कर पाया। अभी रुकें और परिवार से जाँच कराएँ। तब तक लिंक न खोलें, पैसे या OTP न दें। साफ़ फ़ोटो या छोटा संदेश फिर भेज सकते हैं।"},
     "en": {"scam": "⚠️ Warning: this is a scam", "suspicious": "🤔 This message looks suspicious", "safe": "✅ This message looks safe",
-           "todo": "What to do", "error": "Sorry, I couldn't understand this message. Please send it again or ask your family."},
+           "todo": "What to do", "error": "I couldn't check this message. Pause and ask your family to check. Until then, do not open links, pay, or share an OTP. You can also send a clearer photo or a shorter message."},
 }
 
 FLAG_LABELS = {
@@ -23,6 +23,7 @@ FLAG_NAMES_HI = {
     "personal_number_impersonation": "संस्था के नाम से निजी नंबर",
     "credential_request": "OTP या गुप्त जानकारी की मांग",
     "urgent_external_action": "जल्दबाज़ी में लिंक, कॉल या भुगतान का दबाव",
+    "disconnection_action_request": "कनेक्शन काटने की धमकी देकर कॉल या भुगतान की माँग",
 }
 
 
@@ -59,6 +60,15 @@ def build_reply(verdict: Verdict | None, language: str) -> Reply:
     speech = f"{heading.lstrip('⚠️🤔✅ ')}. {verdict.explanation} {verdict.what_to_do}"
     alert = verdict.is_dangerous or (verdict.verdict == "scam" and verdict.urgency == "high")
     return Reply(text=text, speech=speech, alert_family=alert)
+
+
+def build_simple_reply(verdict: Verdict | None, language: str) -> Reply:
+    """An action-only view preserving the original risk and next step."""
+    if verdict is None:
+        return build_reply(None, language)
+    h = HEADINGS.get(language, HEADINGS["en"])
+    text = f"{h.get(verdict.verdict, h['suspicious'])}\n\n👉 {h['todo']}: {verdict.what_to_do}"
+    return Reply(text, verdict.what_to_do, build_reply(verdict, language).alert_family)
 
 
 def family_alert(verdict: Verdict, sender: str, message: str, parent_name: str) -> str:

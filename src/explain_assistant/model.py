@@ -1,4 +1,5 @@
 import json
+import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -81,11 +82,16 @@ class Explainer:
         )
 
     def explain(self, sender: str, text: str, reply_language: str = "hi") -> Verdict | None:
-        verdict = parse_verdict(self.generate_raw(sender, text, reply_language))
-        if verdict is None:
-            return None
         from explain_assistant.safety import apply_safety_net
 
+        protective = apply_safety_net(None, sender, text, reply_language)
+        if protective is not None:
+            return protective
+        try:
+            verdict = parse_verdict(self.generate_raw(sender, text, reply_language))
+        except Exception:
+            logging.getLogger("sarathiai").exception("model inference failed")
+            verdict = None
         return apply_safety_net(verdict, sender, text, reply_language)
 
     def generate_many(self, items: list[tuple[str, str, str]], max_tokens: int = 400, batch_size: int = 8) -> list[str]:

@@ -13,15 +13,16 @@ def synthesize(text: str, language: str, out_path: str | Path) -> Path:
     voice = VOICES.get(language, VOICES["en"])
     with tempfile.TemporaryDirectory() as tmp:
         aiff = Path(tmp) / "speech.aiff"
-        subprocess.run(["say", "-v", voice, "-o", str(aiff), text], check=True)
+        subprocess.run(["say", "-v", voice, "-o", str(aiff), text], check=True, timeout=30)
         if shutil.which("ffmpeg"):
             ogg = out_path.with_suffix(".ogg")
             result = subprocess.run(
                 ["ffmpeg", "-y", "-loglevel", "error", "-i", str(aiff), "-c:a", "libopus", "-b:a", "32k", str(ogg)],
                 capture_output=True,
+                timeout=30,
             )
             if result.returncode == 0:
                 return ogg
         m4a = out_path.with_suffix(".m4a")
-        subprocess.run(["afconvert", "-f", "m4af", "-d", "aac", str(aiff), str(m4a)], check=True)
+        subprocess.run(["afconvert", "-f", "m4af", "-d", "aac", str(aiff), str(m4a)], check=True, timeout=30)
     return m4a

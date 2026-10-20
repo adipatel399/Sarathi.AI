@@ -64,21 +64,20 @@ def score(rows: list[dict], raw_outputs: list[str], use_safety_net: bool = False
     for row, raw in zip(rows, raw_outputs):
         gold = json.loads(row["messages"][-1]["content"])
         pred = parse_verdict(raw)
-        if pred is not None and use_safety_net:
+        counts["valid_json" if pred is not None else "invalid_json"] += 1
+        if use_safety_net:
             pred = apply_safety_net(
                 pred, row["meta"]["sender"], row["meta"]["text"], row["meta"]["reply_language"]
             )
         case = row["meta"]["case"]
         per_case[case][1] += 1
         if pred is None:
-            counts["invalid_json"] += 1
             mistakes.append({"case": case, "text": row["meta"]["text"][:160], "raw": raw[:200]})
             if gold["is_dangerous"]:
                 counts["dangerous_total"] += 1
             if gold["verdict"] == "safe":
                 counts["safe_total"] += 1
             continue
-        counts["valid_json"] += 1
         verdict_ok = pred.verdict == gold["verdict"]
         counts["verdict_correct"] += verdict_ok
         per_case[case][0] += verdict_ok

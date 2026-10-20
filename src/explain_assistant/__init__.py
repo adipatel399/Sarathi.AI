@@ -1,5 +1,6 @@
 import argparse
 import json
+import logging
 import subprocess
 import tempfile
 from dataclasses import asdict
@@ -28,7 +29,14 @@ def main() -> None:
     else:
         ap.error("give message text or --image")
 
-    verdict = Explainer(adapter_path=args.adapter or DEFAULT_ADAPTER).explain(sender, text, args.lang)
+    from explain_assistant.safety import apply_safety_net
+
+    verdict = apply_safety_net(None, sender, text, args.lang)
+    if verdict is None:
+        try:
+            verdict = Explainer(adapter_path=args.adapter or DEFAULT_ADAPTER).explain(sender, text, args.lang)
+        except Exception:
+            logging.getLogger("sarathiai").exception("model unavailable")
     reply = build_reply(verdict, args.lang)
     print(json.dumps(asdict(verdict), ensure_ascii=False, indent=2) if verdict else "{}")
     print("\n" + reply.text)

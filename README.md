@@ -7,9 +7,13 @@ dangerous, their son or daughter gets an alert.
 
 Nothing leaves the machine: model, OCR and speech all run locally.
 
-Sarathi.AI also has a conservative deterministic safety net around the model. It catches high-confidence combinations
-such as an organisation impersonated from a personal number plus an urgent call, payment, credential or external-link
-request. This directly guards the known utility-disconnection false-negative class without changing ordinary safe bills.
+Sarathi.AI also runs deterministic risk checks **before inference**. Explicit credential requests (including spaced-out
+OTP wording), personal-number impersonation with urgent action, and utility-disconnection threats directing a call or
+external link produce a protective warning even if inference is unavailable. Hindi checks account for Devanagari
+combining marks. Clause-local negation and quoted-warning checks help avoid treating safety advice as a request.
+These are conservative heuristics, not sender authentication or a guarantee of scam detection.
+If the bot cannot load its model, it starts in protective-checks-only mode: recognizable patterns still receive
+warnings, and other messages receive the cautious fallback. Restore the model and restart to resume explanations.
 
 ```
 Parent (Telegram)  ── text / photo ──►  Apple Vision OCR (photos)
@@ -151,8 +155,18 @@ Telegram bot (create a bot with [@BotFather](https://t.me/BotFather)):
 TELEGRAM_BOT_TOKEN=... uv run sarathiai-bot
 ```
 
-- Parent: `/start` → pick हिंदी / English → forward messages or send photos. Add `From: VM-HDFCBK` as the
-  first line when the SMS sender is known — sender-vs-content mismatch is one of the strongest scam signals.
+- Parent: `/start` → pick हिंदी / English → follow the short guide and send a message or clear photo.
+  No special formatting is needed. **Add sender** lets them type the name/number shown above the SMS and recheck
+  the same message; **Don't know / Skip** or `/cancel` leaves the original answer available. The old
+  `From: VM-HDFCBK` first-line format still works. Sender information is a hint, never proof of authenticity.
+- Each answer has full-width buttons: **Read aloud**, **Explain more simply** (an action-only view that preserves
+  the risk warning), **Ask my family**, and **Add sender**. Hindi users get Hindi labels and guidance.
+- **Ask my family** sends the message snippet and analysis only to already-linked family members. It explains
+  setup if nobody is linked, reports delivery failures, and skips recipients already notified for that answer.
+  Automatic scam alerts are sent before audio generation; audio failures leave the text available with retry guidance.
+- Analysis and onboarding run in private chats. Answer buttons expire after 30 minutes, and at most eight answers
+  per chat are retained in memory for follow-up actions; these message bodies are not added to the state file.
+  `/help` shows the guide again. If analysis or OCR fails, the reply advises pausing and asking family before acting.
 - Child: `/guardian` → gives a `/family <code>` command for the parent to send. After linking, the child gets
   an alert whenever the parent receives a dangerous message.
 
@@ -173,3 +187,15 @@ uv run sarathiai-audit --eval evals/challenge.json
 
 The overlap audit normalizes numbers and URLs, then measures each evaluation message against its nearest training
 message. Current challenge-set median nearest-token similarity is 0.139, versus 0.250 for the synthetic test set.
+
+Safety and guided-flow regression tests are separate from the frozen evaluation data. They cover independent rule
+warnings, invalid/failed inference, Hindi and English safety advice, optional sender entry, expiring buttons, audio
+failure, explicit family requests, and partial delivery retries. Pipeline evaluation counts rule recovery on invalid
+model output without claiming that the model generated valid JSON. The historical results above have not been
+regenerated for these changes. Live Telegram delivery and usability with parent–guardian pairs still need pilot testing.
+
+For a small usability pilot, ask 5–10 parent–guardian pairs to choose a language, send a message without special
+formatting, add or skip the sender, replay/simplify an answer, and ask their linked family for help. Include a blurry
+photo and an expired answer button. Observe whether the parent completes each task without coaching, can explain
+the next action in their own words, and understands whether a family request was delivered. Record task completion,
+confusion points, and delivery failures; use those observations to revise onboarding before a wider rollout.
